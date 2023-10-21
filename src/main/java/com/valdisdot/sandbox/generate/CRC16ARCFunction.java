@@ -12,16 +12,39 @@ public class CRC16ARCFunction implements Function<byte[], Integer> {
         int crc = INITIAL_VALUE;
 
         for (byte b : data) {
-            crc ^= (b << 8);
+            //refIn for ARC is true
+            b = reflectByte(b);
+            crc ^= (b << 8) & 0xffff;
 
             for (int i = 0; i < 8; i++) {
                 if ((crc & 0x8000) != 0) {
-                    crc = (crc << 1) ^ POLYNOMIAL;
+                    crc = ((crc << 1) ^ POLYNOMIAL) & 0xffff;
                 } else {
-                    crc = crc << 1;
+                    crc = (crc << 1) & 0xffff;
                 }
             }
         }
-        return crc & 0xFFFF;
+        //refOut for ARC is true
+        return reflectInt(crc & 0xFFFF);
+    }
+
+    private byte reflectByte(byte value) {
+        byte reflectedValue = 0;
+        for (int i = 0; i < 8; i++) {
+            if ((value & (1 << i)) != 0) {
+                reflectedValue |= (byte) (1 << (7 - i));
+            }
+        }
+        return reflectedValue;
+    }
+
+    private int reflectInt(int value) {
+        int reflectedValue = 0;
+        for (int i = 0; i < 16; i++) {
+            if ((value & (1 << i)) != 0) {
+                reflectedValue |= (1 << (15 - i));
+            }
+        }
+        return reflectedValue;
     }
 }

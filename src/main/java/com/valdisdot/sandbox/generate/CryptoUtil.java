@@ -1,5 +1,6 @@
 package com.valdisdot.sandbox.generate;
 
+import java.nio.ByteBuffer;
 import java.util.Base64;
 
 public class CryptoUtil {
@@ -25,5 +26,11 @@ public class CryptoUtil {
 
     public static byte[] readBytesFromBase64String(String string) {
         return Base64.getDecoder().decode(string);
+    }
+
+    public static byte[] getBytes(long value){
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        buffer.putLong(value);
+        return buffer.array();
     }
 }

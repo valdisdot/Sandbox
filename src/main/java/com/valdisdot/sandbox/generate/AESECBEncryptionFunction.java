@@ -6,17 +6,19 @@ import java.util.function.UnaryOperator;
 
 public class AESECBEncryptionFunction implements UnaryOperator<byte[]> {
     // 16-character key for AES-128
-    private final String secretKey;
+    private final byte[] secretKey;
 
     public AESECBEncryptionFunction(String secretKey) {
-        this.secretKey = secretKey;
+        this.secretKey = secretKey.getBytes();
     }
+
+    public AESECBEncryptionFunction(byte[] secretKey) {this.secretKey = secretKey;}
 
     @Override
     public byte[] apply(byte[] data) {
         try {
             //create a secret key specification
-            SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "AES");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey, "AES");
             //create a cipher object and set it to encryption mode with ECB
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);

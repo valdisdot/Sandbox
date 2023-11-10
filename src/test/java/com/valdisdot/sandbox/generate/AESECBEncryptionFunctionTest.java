@@ -13,6 +13,7 @@ public class AESECBEncryptionFunctionTest {
         String text = "the test text";
         String aesKey = "1234567890123456";
         //generated online 'devglan.com/online-tools/aes-encryption-decryption'
+        //generated online 'aes.online-domain-tools.com'
         String encryptedAsBase64 = "wsby+ih6HRD97UhveOWUpA==";
         String encryptedAsHEX = "C2C6F2FA287A1D10FDED486F78E594A4";
 
